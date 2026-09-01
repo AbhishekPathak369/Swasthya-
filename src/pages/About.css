@@ -1,0 +1,175 @@
+.about-header {
+  text-align: center;
+  padding: 40px 0 30px;
+}
+
+.about-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #0f1a2e;
+}
+
+.about-header h1 span {
+  color: #2563eb;
+}
+
+.about-header p {
+  font-size: 1.15rem;
+  color: #6a7a8a;
+  margin-top: 8px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin: 40px 0 60px;
+}
+
+.about-card {
+  padding: 32px 28px;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #e8ecf1;
+  transition: all 0.3s ease;
+}
+
+.about-card:hover {
+  border-color: #2563eb;
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.06);
+}
+
+.about-icon {
+  font-size: 2.6rem;
+  margin-bottom: 14px;
+}
+
+.about-card h3 {
+  font-size: 1.2rem;
+  color: #0f1a2e;
+  margin-bottom: 10px;
+}
+
+.about-card p {
+  color: #5a6a7a;
+  line-height: 1.7;
+}
+
+.about-team {
+  text-align: center;
+  padding: 40px 0;
+  border-top: 1px solid #e8ecf1;
+}
+
+.about-team h2 {
+  font-size: 2rem;
+  color: #0f1a2e;
+  margin-bottom: 30px;
+}
+
+.team-grid {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.team-member {
+  text-align: center;
+}
+
+.member-avatar {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 auto 12px;
+}
+
+.team-member h4 {
+  font-size: 1rem;
+  color: #0f1a2e;
+}
+
+.team-member p {
+  color: #6a7a8a;
+  font-size: 0.9rem;
+}
+
+.team-guide {
+  padding: 20px;
+  background: #f8faff;
+  border-radius: 16px;
+}
+
+.team-guide p {
+  color: #4a5a6a;
+  margin: 4px 0;
+}
+
+.about-achievements {
+  padding: 40px 0;
+  border-top: 1px solid #e8ecf1;
+}
+
+.about-achievements h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #0f1a2e;
+  margin-bottom: 30px;
+}
+
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.achievement {
+  text-align: center;
+  padding: 24px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e8ecf1;
+}
+
+.achievement-number {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.achievement-label {
+  display: block;
+  color: #6a7a8a;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-header h1 {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .achievement-grid {
+    grid-template-columns: 1fr;
+  }
+}
