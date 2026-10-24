@@ -1,0 +1,191 @@
+/* frontend/src/pages/Predictor.css */
+.predictor-container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 20px;
+  color: #fff;
+}
+
+.predictor-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.predictor-header h1 span {
+  color: #e74c3c; /* Swasthya+ red */
+}
+
+.predictor-header p {
+  color: #aaa;
+  margin-bottom: 30px;
+}
+
+/* Input Section */
+.input-section {
+  background: #1e1e2f;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.symptom-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.symptom-form input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #12121c;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.symptom-form button {
+  padding: 12px 20px;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.symptom-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.symptom-tag {
+  background: #2c3e50;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.symptom-tag button {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.predict-btn {
+  width: 100%;
+  padding: 15px;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.predict-btn:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.predict-btn:hover:not(:disabled) {
+  background: #c0392b;
+}
+
+/* Results */
+.results-section {
+  display: grid;
+  gap: 20px;
+}
+
+.diagnosis-card, .explanation-card {
+  background: #1e1e2f;
+  padding: 25px;
+  border-radius: 12px;
+  border-left: 4px solid #e74c3c;
+}
+
+.disease-name {
+  font-size: 2rem;
+  color: #e74c3c;
+  margin: 10px 0;
+}
+
+.confidence {
+  font-size: 1.2rem;
+  color: #2ecc71;
+}
+
+.latency {
+  font-size: 0.9rem;
+  color: #777;
+  margin-top: 10px;
+}
+
+/* SHAP Bars */
+.shap-bars {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shap-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.shap-symptom {
+  width: 120px;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+}
+
+.shap-bar-container {
+  flex: 1;
+  background: #12121c;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+}
+
+.shap-bar {
+  height: 100%;
+  transition: width 0.5s ease-out;
+}
+
+.shap-bar.positive {
+  background: #2ecc71; /* Green for pushing prediction UP */
+}
+
+.shap-bar.negative {
+  background: #e74c3c; /* Red for pushing prediction DOWN */
+}
+
+.shap-value {
+  width: 50px;
+  text-align: right;
+  font-family: monospace;
+  color: #aaa;
+}
+
+.error-message {
+  background: #ff4757;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}

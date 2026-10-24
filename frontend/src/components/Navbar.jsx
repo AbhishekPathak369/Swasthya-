@@ -36,7 +36,9 @@ const Navbar = () => {
           <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>
             Contact
           </NavLink>
-          <button className="nav-cta">Try Demo</button>
+           <NavLink to="/predict" className="nav-cta" style={{ textDecoration: 'none' }}>
+            Try Demo
+          </NavLink>
         </div>
       </div>
     </nav>
