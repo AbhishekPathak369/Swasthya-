@@ -6,7 +6,10 @@ import Home from './pages/Home';
 import About from './pages/About';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
-import Predictor from './pages/Predictor'; // <-- ADDED IMPORT
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Profile from './pages/Profile';
+import Dashboard from './pages/Dashboard';
 import './App.css';
 
 function App() {
@@ -18,7 +21,10 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/predict" element={<Predictor />} /> {/* <-- ADDED ROUTE */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       <Footer />
     </div>
