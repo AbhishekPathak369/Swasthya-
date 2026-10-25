@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../services/api';
 import './Login.css';
 
 const Login = () => {
@@ -20,61 +21,52 @@ const Login = () => {
     setError('');
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
 
-    // ============================================================
-    // BACKEND CONNECTION AREA - LOGIN
-    // ============================================================
-    // TODO: Replace this mock logic with actual API call
-    // Example:
-    // try {
-    //   const response = await fetch('http://localhost:5000/api/auth/login', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({
-    //       email: formData.email,
-    //       password: formData.password
-    //     })
-    //   });
-    //   const data = await response.json();
-    //   if (data.success) {
-    //     localStorage.setItem('token', data.token);
-    //     localStorage.setItem('user', JSON.stringify(data.user));
-    //     navigate('/profile');
-    //   } else {
-    //     setError(data.message || 'Login failed');
-    //   }
-    // } catch (err) {
-    //   setError('Server error. Please try again.');
-    // } finally {
-    //   setLoading(false);
-    // }
-    // ============================================================
+  // Validate inputs
+  if (!formData.email.trim() || !formData.password) {
+    return setError('Please fill in all fields');
+  }
 
-    // TEMPORARY MOCK LOGIC (Remove when backend is ready)
-    setTimeout(() => {
-      if (formData.email && formData.password) {
-        // Mock user data - replace with actual user data from backend
-        const mockUser = {
-          id: 1,
-          name: 'Agrim Gupta',
-          email: formData.email,
-          mobile: '+91 9876543210',
-          role: 'Patient',
-          avatar: 'https://ui-avatars.com/api/?name=Agrim+Gupta&background=2563eb&color=fff&size=128'
-        };
-        localStorage.setItem('token', 'mock-token-123');
-        localStorage.setItem('user', JSON.stringify(mockUser));
-        navigate('/profile');
-      } else {
-        setError('Please fill in all fields');
-        setLoading(false);
-      }
-    }, 1000);
-  };
+  setLoading(true);
+
+  try {
+    // Send credentials to Express backend
+    const data = await loginUser({
+      email: formData.email.trim(),
+      password: formData.password
+    });
+
+    // Remove any previous mock session
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    // Save actual authentication response
+    // Temporary development approach; we'll improve
+    // token storage before production.
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+
+    // Redirect to profile
+    navigate('/profile');
+
+  } catch (err) {
+    const message =
+      err.response?.data?.message ||
+      (err.response
+        ? 'Login failed. Please try again.'
+        : 'Unable to connect to server. Please try again.');
+
+    setError(message);
+
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="auth-page">

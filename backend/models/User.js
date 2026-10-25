@@ -17,6 +17,13 @@ const userSchema = new mongoose.Schema(
       trim: true
     },
 
+    mobile: {
+      type: String,
+      required: true,
+      trim: true,
+      match: [/^[6-9]\d{9}$/, 'Invalid mobile number']
+    },
+
     password: {
       type: String,
       required: true,
@@ -27,6 +34,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['patient', 'doctor'],
       default: 'patient'
+    },
+     avatar: {
+    type: String,
+    default: ''
+  },
+
+    doctorVerificationStatus: {
+      type: String,
+      enum: ['not_applicable', 'pending', 'approved', 'rejected'],
+      default: 'not_applicable'
     }
   },
   {

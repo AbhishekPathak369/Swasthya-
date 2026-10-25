@@ -16,28 +16,31 @@ const generateToken = (user) => {
 };
 
 // REGISTER USER
+
 const register = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, mobile, password, role } = req.body;
 
-    // Validate input
+    // Validate inputs
     if (
       typeof name !== 'string' ||
       !name.trim() ||
       typeof email !== 'string' ||
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) ||
+      typeof mobile !== 'string' ||
+      !/^[6-9]\d{9}$/.test(mobile.trim()) ||
       typeof password !== 'string' ||
       password.length < 12 ||
-      Buffer.byteLength(password, 'utf8') > 72
+      Buffer.byteLength(password, 'utf8') > 72 ||
+      !['patient', 'doctor'].includes(role)
     ) {
       return res.status(400).json({
-        message: 'Provide a valid name, email and password (12-72 UTF-8 bytes)'
+        message: 'Please provide valid registration details. Password must contain at least 12 characters.'
       });
     }
 
     const normalizedEmail = email.trim().toLowerCase();
 
-    // Check existing user
     const existingUser = await User.findOne({
       email: normalizedEmail
     });
@@ -48,25 +51,37 @@ const register = async (req, res, next) => {
       });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Create patient account
     const user = await User.create({
       name: name.trim(),
       email: normalizedEmail,
+      mobile: mobile.trim(),
       password: hashedPassword,
-      role: 'patient'
+
+      // Never grant doctor privileges through public signup.
+      role: 'patient',
+
+      doctorVerificationStatus:
+        role === 'doctor' ? 'pending' : 'not_applicable'
     });
 
-    res.status(201).json({
-      message: 'Registration successful',
+    return res.status(201).json({
+      message:
+        role === 'doctor'
+          ? 'Account created. Doctor verification is pending.'
+          : 'Registration successful',
+
       token: generateToken(user),
+
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role
+        mobile: user.mobile,
+        role: user.role,
+            avatar: user.avatar,
+        doctorVerificationStatus: user.doctorVerificationStatus
       }
     });
 
@@ -80,6 +95,7 @@ const register = async (req, res, next) => {
     next(error);
   }
 };
+
 
 // LOGIN USER
 const login = async (req, res, next) => {
@@ -120,11 +136,14 @@ const login = async (req, res, next) => {
       message: 'Login successful',
       token: generateToken(user),
       user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role
-      }
+  id: user._id,
+  name: user.name,
+  email: user.email,
+  mobile: user.mobile,
+      avatar: user.avatar,
+  role: user.role,
+  doctorVerificationStatus: user.doctorVerificationStatus
+}
     });
 
   } catch (error) {
@@ -134,15 +153,19 @@ const login = async (req, res, next) => {
 
 // GET CURRENT LOGGED-IN USER
 const getMe = async (req, res) => {
-  res.status(200).json({
-    success: true,
+  const user = req.user;
+
+  return res.status(200).json({
     user: {
-      id: req.user._id,
-      name: req.user.name,
-      email: req.user.email,
-      role: req.user.role
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      mobile: user.mobile,
+      role: user.role,
+      avatar: user.avatar,
+      doctorVerificationStatus: user.doctorVerificationStatus
     }
   });
 };
 
-module.exports = { register, login,getMe };
+module.exports = { register, login, getMe };

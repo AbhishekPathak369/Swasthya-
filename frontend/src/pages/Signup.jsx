@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { registerUser } from '../services/api';
 import './Signup.css';
 
 const Signup = () => {
@@ -20,66 +21,70 @@ const Signup = () => {
     setError('');
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+  
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
 
-    if (!formData.name.trim()) return setError('Please enter your full name');
-    if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))
-      return setError('Please enter a valid email address');
-    if (!formData.mobile.trim() || formData.mobile.length < 10)
-      return setError('Please enter a valid mobile number');
-    if (!formData.role) return setError('Please select your role');
-    if (formData.password.length < 6) return setError('Password must be at least 6 characters');
+  // Frontend validation
+  if (!formData.name.trim()) {
+    return setError('Please enter your full name');
+  }
 
-    setLoading(true);
+  if (!formData.email.trim() ||
+      !/\S+@\S+\.\S+/.test(formData.email)) {
+    return setError('Please enter a valid email address');
+  }
 
-    // ============================================================
-    // BACKEND CONNECTION AREA - SIGNUP
-    // ============================================================
-    // TODO: Replace mock logic with real API call
-    // try {
-    //   const response = await fetch('http://localhost:5000/api/auth/signup', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({
-    //       name: formData.name,
-    //       email: formData.email,
-    //       mobile: formData.mobile,
-    //       role: formData.role,
-    //       password: formData.password
-    //     })
-    //   });
-    //   const data = await response.json();
-    //   if (data.success) {
-    //     localStorage.setItem('token', data.token);
-    //     localStorage.setItem('user', JSON.stringify(data.user));
-    //     navigate('/profile');
-    //   } else {
-    //     setError(data.message || 'Signup failed');
-    //   }
-    // } catch (err) {
-    //   setError('Server error. Please try again.');
-    // } finally {
-    //   setLoading(false);
-    // }
-    // ============================================================
+  if (!/^[6-9]\d{9}$/.test(formData.mobile.trim())) {
+    return setError('Please enter a valid 10-digit mobile number');
+  }
 
-    // TEMPORARY MOCK LOGIC (Remove when backend is ready)
-    setTimeout(() => {
-      const mockUser = {
-        id: Date.now(),
-        name: formData.name,
-        email: formData.email,
-        mobile: formData.mobile,
-        role: formData.role,
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name)}&background=2563eb&color=fff&size=128`
-      };
-      localStorage.setItem('token', 'mock-token-123');
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      navigate('/profile');
-    }, 1000);
-  };
+  if (!formData.role) {
+    return setError('Please select your role');
+  }
+
+  if (
+    formData.password.length < 12 ||
+    new TextEncoder().encode(formData.password).length > 72
+  ) {
+    return setError(
+      'Password must be at least 12 characters and at most 72 UTF-8 bytes'
+    );
+  }
+
+  setLoading(true);
+
+  try {
+    // Call our actual Express backend
+    const data = await registerUser({
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      mobile: formData.mobile.trim(),
+      role: formData.role.toLowerCase(),
+      password: formData.password
+    });
+
+    // Temporarily persist the response using the
+    // existing frontend session convention.
+    // We will improve session storage before production.
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+
+    // Redirect after successful registration
+    navigate('/profile');
+
+  } catch (err) {
+    const message =
+      err.response?.data?.message ||
+      'Registration failed. Please try again.';
+
+    setError(message);
+
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="auth-page signup-page">
@@ -220,7 +225,8 @@ const Signup = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    placeholder="Min 6 characters"
+                    placeholder="Min 12 characters"
+                    minLength={12}
                     required
                   />
                   <button

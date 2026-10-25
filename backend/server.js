@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const predictRoutes = require('./routes/predict.routes');
-
+const authRoutes = require('./routes/authRoutes');
 // Initialize Express
 const app = express();
 
@@ -22,7 +22,8 @@ app.get('/health', (req, res) => {
 
 // Mount Routes
 app.use('/api/predict', predictRoutes);
-
+//auth Routes
+app.use('/api/auth', authRoutes);
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
