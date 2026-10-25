@@ -97,8 +97,8 @@ const Navbar = () => {
           <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'active' : ''}>
            Dashboard
           </NavLink>
-           <NavLink to="/feature2" className={({ isActive }) => isActive ? 'active' : ''}>
-            Feature 2
+           <NavLink to="/predict" className={({ isActive }) => isActive ? 'active' : ''}>
+            Predict
           </NavLink>
           <NavLink to="/about" className={({ isActive }) => isActive ? 'active' : ''}>
             About

@@ -11,6 +11,7 @@ import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import Predictor from './pages/Predictor'; // <-- IMPORT Predictor COMPONENT
 import './App.css';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
   <Route path="/profile" element={<Profile />} />
 </Route>
         <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/predict" element={<Predictor />} /> {/* <-- ADDED ROUTE */}
       </Routes>
       <Footer />
     </div>

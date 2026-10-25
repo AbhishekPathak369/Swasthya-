@@ -1,162 +1,278 @@
+/* ==========================================================
+   ABOUT PAGE — Professional Layout
+   ========================================================== */
+
+.about {
+  background: #f5f7fc;
+}
+
+/* ===== Header ===== */
 .about-header {
   text-align: center;
-  padding: 40px 0 30px;
+  padding: 30px 0 40px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.about-badge {
+  display: inline-block;
+  background: rgba(37, 99, 235, 0.08);
+  color: #2563eb;
+  padding: 5px 16px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  border: 1px solid rgba(37, 99, 235, 0.14);
 }
 
 .about-header h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #0f1a2e;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: #0b1527;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 10px;
 }
 
 .about-header h1 span {
-  color: #2563eb;
+  background: linear-gradient(120deg, #2563eb, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .about-header p {
-  font-size: 1.15rem;
+  font-size: 1rem;
   color: #6a7a8a;
-  margin-top: 8px;
+  line-height: 1.65;
 }
 
+/* ===== Feature Grid ===== */
 .about-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-  margin: 40px 0 60px;
+  gap: 20px;
+  margin-bottom: 56px;
 }
 
 .about-card {
-  padding: 32px 28px;
-  background: white;
-  border-radius: 20px;
-  border: 1px solid #e8ecf1;
-  transition: all 0.3s ease;
+  padding: 28px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #eef2f8;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .about-card:hover {
-  border-color: #2563eb;
-  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.06);
+  border-color: #c7d6ea;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(15, 26, 46, 0.06);
 }
 
 .about-icon {
-  font-size: 2.6rem;
-  margin-bottom: 14px;
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  border-radius: 12px;
+  color: #2563eb;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.about-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.about-card:hover .about-icon {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  transform: scale(1.05);
 }
 
 .about-card h3 {
-  font-size: 1.2rem;
-  color: #0f1a2e;
-  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #0b1527;
+  margin-bottom: 8px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
 }
 
 .about-card p {
   color: #5a6a7a;
   line-height: 1.7;
+  font-size: 0.92rem;
 }
 
+/* ===== Section Titles ===== */
+.about-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.section-title-icon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(37, 99, 235, 0.08);
+  border-radius: 10px;
+  color: #2563eb;
+}
+
+.section-title-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.about-section-title h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0b1527;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* ===== Team ===== */
 .about-team {
-  text-align: center;
-  padding: 40px 0;
+  padding: 48px 0;
   border-top: 1px solid #e8ecf1;
-}
-
-.about-team h2 {
-  font-size: 2rem;
-  color: #0f1a2e;
-  margin-bottom: 30px;
 }
 
 .team-grid {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 32px;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
 .team-member {
   text-align: center;
+  min-width: 130px;
 }
 
 .member-avatar {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: white;
+  color: #ffffff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.6rem;
+  font-size: 1.35rem;
   font-weight: 700;
   margin: 0 auto 12px;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.22);
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.team-member:hover .member-avatar {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.3);
 }
 
 .team-member h4 {
-  font-size: 1rem;
-  color: #0f1a2e;
+  font-size: 0.95rem;
+  color: #0b1527;
+  font-weight: 700;
+  margin-bottom: 2px;
 }
 
 .team-member p {
   color: #6a7a8a;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 500;
 }
 
 .team-guide {
-  padding: 20px;
-  background: #f8faff;
-  border-radius: 16px;
+  padding: 20px 24px;
+  background: #ffffff;
+  border: 1px solid #eef2f8;
+  border-radius: 14px;
+  max-width: 620px;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(15, 26, 46, 0.03);
 }
 
 .team-guide p {
   color: #4a5a6a;
   margin: 4px 0;
+  font-size: 0.88rem;
 }
 
+.team-guide p:first-child {
+  color: #0b1527;
+  font-weight: 600;
+}
+
+/* ===== Achievements ===== */
 .about-achievements {
-  padding: 40px 0;
+  padding: 48px 0 20px;
   border-top: 1px solid #e8ecf1;
-}
-
-.about-achievements h2 {
-  text-align: center;
-  font-size: 2rem;
-  color: #0f1a2e;
-  margin-bottom: 30px;
 }
 
 .achievement-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 16px;
 }
 
 .achievement {
   text-align: center;
-  padding: 24px;
-  background: white;
-  border-radius: 16px;
-  border: 1px solid #e8ecf1;
+  padding: 26px 18px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #eef2f8;
+  transition: all 0.3s ease;
+}
+
+.achievement:hover {
+  border-color: #c7d6ea;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(15, 26, 46, 0.06);
 }
 
 .achievement-number {
   display: block;
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #2563eb;
+  font-size: 1.9rem;
+  font-weight: 800;
+  background: linear-gradient(120deg, #2563eb, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .achievement-label {
   display: block;
   color: #6a7a8a;
-  font-size: 0.9rem;
-  margin-top: 4px;
+  font-size: 0.78rem;
+  margin-top: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
   .about-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .achievement-grid {
@@ -164,12 +280,35 @@
   }
 
   .about-header h1 {
-    font-size: 2.4rem;
+    font-size: 2rem;
+  }
+
+  .about-section-title h2 {
+    font-size: 1.35rem;
+  }
+
+  .about-card {
+    padding: 22px;
+  }
+
+  .about-team,
+  .about-achievements {
+    padding: 36px 0;
   }
 }
 
 @media (max-width: 480px) {
   .achievement-grid {
     grid-template-columns: 1fr;
+  }
+
+  .team-grid {
+    gap: 24px;
+  }
+
+  .member-avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 1.2rem;
   }
 }

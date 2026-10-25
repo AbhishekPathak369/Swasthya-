@@ -3,6 +3,53 @@ import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/api';
 import './Signup.css';
 
+/* ---------- SVG Icons (only ones still used) ---------- */
+const EyeIcon = ({ open }) => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    {open ? (
+      <>
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+        <circle cx="12" cy="12" r="3" />
+      </>
+    ) : (
+      <>
+        <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+        <line x1="1" y1="1" x2="23" y2="23" />
+      </>
+    )}
+  </svg>
+);
+
+const ShieldIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <path d="M9 12l2 2 4-4" />
+  </svg>
+);
+
+const SparkIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 3l1.9 5.8 5.8 1.9-5.8 1.9L12 18.4l-1.9-5.8L4.3 10.7l5.8-1.9L12 3z" />
+  </svg>
+);
+
+const TargetIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <circle cx="12" cy="12" r="6" />
+    <circle cx="12" cy="12" r="2" />
+  </svg>
+);
+
+const AlertIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <line x1="12" y1="16" x2="12.01" y2="16" />
+  </svg>
+);
+
+/* ---------- Component ---------- */
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -21,70 +68,59 @@ const Signup = () => {
     setError('');
   };
 
-  
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
 
-  // Frontend validation
-  if (!formData.name.trim()) {
-    return setError('Please enter your full name');
-  }
+    if (!formData.name.trim()) {
+      return setError('Please enter your full name');
+    }
 
-  if (!formData.email.trim() ||
-      !/\S+@\S+\.\S+/.test(formData.email)) {
-    return setError('Please enter a valid email address');
-  }
+    if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) {
+      return setError('Please enter a valid email address');
+    }
 
-  if (!/^[6-9]\d{9}$/.test(formData.mobile.trim())) {
-    return setError('Please enter a valid 10-digit mobile number');
-  }
+    if (!/^[6-9]\d{9}$/.test(formData.mobile.trim())) {
+      return setError('Please enter a valid 10-digit mobile number');
+    }
 
-  if (!formData.role) {
-    return setError('Please select your role');
-  }
+    if (!formData.role) {
+      return setError('Please select your role');
+    }
 
-  if (
-    formData.password.length < 12 ||
-    new TextEncoder().encode(formData.password).length > 72
-  ) {
-    return setError(
-      'Password must be at least 12 characters and at most 72 UTF-8 bytes'
-    );
-  }
+    if (
+      formData.password.length < 12 ||
+      new TextEncoder().encode(formData.password).length > 72
+    ) {
+      return setError(
+        'Password must be at least 12 characters and at most 72 UTF-8 bytes'
+      );
+    }
 
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    // Call our actual Express backend
-    const data = await registerUser({
-      name: formData.name.trim(),
-      email: formData.email.trim(),
-      mobile: formData.mobile.trim(),
-      role: formData.role.toLowerCase(),
-      password: formData.password
-    });
+    try {
+      const data = await registerUser({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        mobile: formData.mobile.trim(),
+        role: formData.role.toLowerCase(),
+        password: formData.password
+      });
 
-    // Temporarily persist the response using the
-    // existing frontend session convention.
-    // We will improve session storage before production.
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
 
-    // Redirect after successful registration
-    navigate('/profile');
-
-  } catch (err) {
-    const message =
-      err.response?.data?.message ||
-      'Registration failed. Please try again.';
-
-    setError(message);
-
-  } finally {
-    setLoading(false);
-  }
-};
+      navigate('/profile');
+    } catch (err) {
+      const message =
+        err.response?.data?.message ||
+        'Registration failed. Please try again.';
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="auth-page signup-page">
@@ -94,22 +130,21 @@ const handleSubmit = async (e) => {
           <div className="visual-content">
             <div className="visual-logo">
               <img src="/logo2.png" alt="Swasthya+" className="visual-logo-img" />
-              <span>Swasthya<span className="plus">+</span></span>
             </div>
-            <h2>Join Swasthya+</h2>
-            <p>Create your account and start your journey towards smarter, AI-powered healthcare.</p>
+            <h2>Create your account</h2>
+            <p>Join Swasthya+ and start your journey towards smarter, AI-powered healthcare.</p>
             <div className="visual-features">
               <div className="visual-feature">
-                <span className="vf-icon">✨</span>
-                <span>Free Forever</span>
+                <span className="vf-icon"><SparkIcon /></span>
+                <span>Free forever</span>
               </div>
               <div className="visual-feature">
-                <span className="vf-icon">🛡️</span>
-                <span>Your Data is Secure</span>
+                <span className="vf-icon"><ShieldIcon /></span>
+                <span>Your data is secure</span>
               </div>
               <div className="visual-feature">
-                <span className="vf-icon">🎯</span>
-                <span>Personalized Predictions</span>
+                <span className="vf-icon"><TargetIcon /></span>
+                <span>Personalized predictions</span>
               </div>
             </div>
           </div>
@@ -123,29 +158,30 @@ const handleSubmit = async (e) => {
         <div className="auth-form-section">
           <div className="auth-form-wrapper">
             <div className="auth-header">
-              <h1>Create Account</h1>
+              <h1>Create account</h1>
               <p>Already have an account? <Link to="/login">Sign in</Link></p>
             </div>
 
             {error && (
               <div className="auth-error">
-                <span>⚠️</span> {error}
+                <AlertIcon />
+                <span>{error}</span>
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="auth-form">
               {/* Name */}
               <div className="form-group">
-                <label htmlFor="name">Full Name</label>
+                <label htmlFor="name">Full name</label>
                 <div className="input-wrapper">
-                  <span className="input-icon">👤</span>
                   <input
                     type="text"
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Enter your full name"
+                    placeholder="Your full name"
+                    autoComplete="name"
                     required
                   />
                 </div>
@@ -153,16 +189,16 @@ const handleSubmit = async (e) => {
 
               {/* Email */}
               <div className="form-group">
-                <label htmlFor="email">Email Address</label>
+                <label htmlFor="email">Email address</label>
                 <div className="input-wrapper">
-                  <span className="input-icon">📧</span>
                   <input
                     type="email"
                     id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="you@example.com"
+                    placeholder="name@company.com"
+                    autoComplete="email"
                     required
                   />
                 </div>
@@ -170,16 +206,16 @@ const handleSubmit = async (e) => {
 
               {/* Mobile */}
               <div className="form-group">
-                <label htmlFor="mobile">Mobile Number</label>
+                <label htmlFor="mobile">Mobile number</label>
                 <div className="input-wrapper">
-                  <span className="input-icon">📱</span>
                   <input
                     type="tel"
                     id="mobile"
                     name="mobile"
                     value={formData.mobile}
                     onChange={handleChange}
-                    placeholder="+91 98765 43210"
+                    placeholder="10-digit mobile number"
+                    autoComplete="tel"
                     required
                   />
                 </div>
@@ -187,7 +223,7 @@ const handleSubmit = async (e) => {
 
               {/* Role */}
               <div className="form-group">
-                <label>I am a</label>
+                <label>Account type</label>
                 <div className="role-selector">
                   <label className={`role-option ${formData.role === 'Patient' ? 'selected' : ''}`}>
                     <input
@@ -197,7 +233,6 @@ const handleSubmit = async (e) => {
                       checked={formData.role === 'Patient'}
                       onChange={handleChange}
                     />
-                    <span className="role-emoji">👤</span>
                     <span className="role-name">Patient</span>
                   </label>
                   <label className={`role-option ${formData.role === 'Doctor' ? 'selected' : ''}`}>
@@ -208,7 +243,6 @@ const handleSubmit = async (e) => {
                       checked={formData.role === 'Doctor'}
                       onChange={handleChange}
                     />
-                    <span className="role-emoji">👨‍⚕️</span>
                     <span className="role-name">Doctor</span>
                   </label>
                 </div>
@@ -218,14 +252,14 @@ const handleSubmit = async (e) => {
               <div className="form-group">
                 <label htmlFor="password">Password</label>
                 <div className="input-wrapper">
-                  <span className="input-icon">🔒</span>
                   <input
                     type={showPassword ? 'text' : 'password'}
                     id="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    placeholder="Min 12 characters"
+                    placeholder="Minimum 12 characters"
+                    autoComplete="new-password"
                     minLength={12}
                     required
                   />
@@ -233,8 +267,9 @@ const handleSubmit = async (e) => {
                     type="button"
                     className="password-toggle"
                     onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    {showPassword ? '👁️' : '👁️‍🗨️'}
+                    <EyeIcon open={showPassword} />
                   </button>
                 </div>
               </div>
@@ -242,10 +277,10 @@ const handleSubmit = async (e) => {
               <button type="submit" className="btn-auth" disabled={loading}>
                 {loading ? (
                   <>
-                    <span className="spinner"></span> Creating...
+                    <span className="spinner"></span> Creating account...
                   </>
                 ) : (
-                  <>Create Account →</>
+                  <>Create account</>
                 )}
               </button>
             </form>
